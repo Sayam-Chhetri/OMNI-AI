@@ -176,6 +176,7 @@ if user_input := st.chat_input("Message Omni AI (or ask about your attached imag
         model=model_name,
         api_key=api_key,
         temperature=temperature,
+        max_tokens=1024,
     )
     chain = llm | StrOutputParser()
 
