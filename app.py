@@ -81,12 +81,24 @@ VISION_MODELS = [
 
 with st.sidebar:
     st.header("Settings")
-    api_key = st.text_input(
-        "OpenRouter API Key",
-        value=os.getenv("OPENROUTER_API_KEY", ""),
-        type="password",
-        placeholder="sk-or-v1-...",
-    )
+    server_api_key = os.getenv("OPENROUTER_API_KEY", "")
+    if server_api_key:
+        st.caption("API key: loaded securely from server")
+        custom_key = st.text_input(
+            "Override API Key (optional)",
+            value="",
+            type="password",
+            placeholder="sk-or-v1-...",
+        )
+        api_key = custom_key.strip() or server_api_key
+    else:
+        api_key = st.text_input(
+            "OpenRouter API Key",
+            value="",
+            type="password",
+            placeholder="sk-or-v1-...",
+        ).strip()
+
     selected_model = st.selectbox("Vision-Capable Model", VISION_MODELS + ["Custom..."])
     if selected_model == "Custom...":
         model_name = st.text_input("Custom Model Slug", value="google/gemini-2.5-flash")
